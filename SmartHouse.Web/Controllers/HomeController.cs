@@ -1,6 +1,8 @@
 ﻿using System.Web.Mvc;
 using SmartHouse.Core.Dto;
 using SmartHouse.Services.Data;
+using SmartHouse.Web.Models;
+using SmartHouse.Web.Models.Response;
 
 namespace SmartHouse.Web.Controllers
 {
@@ -29,15 +31,16 @@ namespace SmartHouse.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SetData(SensorData data)
+        public ActionResult SetData(SensorDataViewModel data)
         {
-            var newId = dataService.SaveSensorData(data);
-
-            return Json(new
+            if (!ModelState.IsValid)
             {
-                Success = true,
-                Message = "Saved"
-            });
+                return Json(new ErrorResponse("Invalid parameters"));
+            }
+
+            var newId = dataService.SaveSensorData(data.ToSensorData());
+
+            return Json(new SuccessResponse("Saved"));
         }
     }
 }
