@@ -34,5 +34,23 @@ namespace SmartHouse.Services.Data
 
             return newId;
         }
+
+        public SensorData GetLastSensorData(int houseId, int roomId, int sensorId)
+        {
+            using (var command = unitOfWork.CreateCommand())
+            {
+                command.CommandText =
+                    "SELECT TOP 1 * FROM [SensorData] WHERE HouseId = @houseId and RoomId = @roomId and SensorId = @sensorId ORDER BY [Time] DESC";
+                command.Parameters.AddWithValue("@houseId", houseId);
+                command.Parameters.AddWithValue("@roomId", roomId);
+                command.Parameters.AddWithValue("@sensorId", sensorId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    return new SensorData(reader);
+                }
+            }
+        }
     }
 }

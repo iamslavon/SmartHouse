@@ -1,5 +1,23 @@
-﻿@{
+﻿@model IEnumerable<SmartHouse.Core.Dto.SensorData>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<h2>Hello</h2>
+<div class="col-md-12 house-container">
+    <h3 class="text-center">Ministry of Pies</h3>
+    <div class="col-md-4">
+        <div class="col-md-12 room-container">
+            <h4 class="text-center">Living room</h4>
+            <ul>
+                <li>
+                    <span class="font-24"><i class="fa fa-thermometer-half text-warning" aria-hidden="true"></i> @Model.ElementAt(0).Value <span class="font-16">°С</span></span>
+                </li>
+                <li>
+                    <span class="font-24"><i class="fa fa-tint text-info" aria-hidden="true"></i> @Model.ElementAt(1).Value <span class="font-16">%</span></span>
+                </li>
+            </ul>
+            <div class="last-update-label">Last update: @Model.ElementAt(1).Time.ToString("t")</div>
+        </div>
+    </div>
+</div>
