@@ -12,13 +12,13 @@ namespace SmartHouse.Web
             routes.MapRoute(
                 "",
                 "data/get",
-                new { controller = "Home", action = "GetData"}
+                new { controller = "Data", action = "GetData"}
             );
 
             routes.MapRoute(
                 "",
                 "data/set",
-                new { controller = "Home", action = "SetData" }
+                new { controller = "Data", action = "SetData" }
             );
 
             routes.MapRoute(
