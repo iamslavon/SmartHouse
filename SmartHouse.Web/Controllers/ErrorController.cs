@@ -6,11 +6,13 @@ namespace SmartHouse.Web.Controllers
     {
         public ActionResult Default()
         {
+            Response.StatusCode = 500;
             return View();
         }
 
         public ActionResult NotFound()
         {
+            Response.StatusCode = 404;
             return View();
         }
     }
