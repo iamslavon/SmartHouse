@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Data.SqlClient;
 using SmartHouse.Core.Dto;
-using SmartHouse.Services.UnitOfWork;
 
 namespace SmartHouse.Services.Data
 {
     public class DataService
     {
-        protected readonly AdoNetUnitOfWork unitOfWork;
+        private readonly string connectionString;
 
         public DataService()
         {
-            this.unitOfWork = UnitOfWorkFactory.Create();
+            this.connectionString = ConnectionStringProvider.ConnectionString;
         }
 
         public int SaveSensorData(SensorData data)
         {
             int newId;
 
-            using (var command = unitOfWork.CreateCommand())
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
             {
+                connection.Open();
                 command.CommandText =
                     "INSERT INTO [SensorData] ([HouseId], [RoomId], [SensorId], [Value], [Time]) OUTPUT Inserted.ID VALUES (@houseId, @roomId, @sensorId, @data, @time);";
                 command.Parameters.AddWithValue("@houseId", data.HouseId);
@@ -27,18 +29,18 @@ namespace SmartHouse.Services.Data
                 command.Parameters.AddWithValue("@data", data.Value);
                 command.Parameters.AddWithValue("@time", DateTime.Now);
 
-                newId = (int)command.ExecuteScalar();
+                newId = (int) command.ExecuteScalar();
             }
-
-            unitOfWork.SaveChanges();
 
             return newId;
         }
 
         public SensorData GetLastSensorData(int houseId, int roomId, int sensorId)
         {
-            using (var command = unitOfWork.CreateCommand())
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
             {
+                connection.Open();
                 command.CommandText =
                     "SELECT TOP 1 * FROM [SensorData] WHERE HouseId = @houseId and RoomId = @roomId and SensorId = @sensorId ORDER BY [Time] DESC";
                 command.Parameters.AddWithValue("@houseId", houseId);

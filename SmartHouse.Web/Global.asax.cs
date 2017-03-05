@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using NLog;
-using SmartHouse.Services.UnitOfWork;
+using SmartHouse.Services;
 
 namespace SmartHouse.Web
 {
@@ -18,7 +18,7 @@ namespace SmartHouse.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            UnitOfWorkFactory.ConnectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+            ConnectionStringProvider.ConnectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
         }
 
         protected void Application_Error()
