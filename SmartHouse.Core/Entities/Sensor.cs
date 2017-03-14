@@ -1,9 +1,16 @@
-﻿namespace SmartHouse.Core.Entities
+﻿using System;
+using System.Data;
+
+namespace SmartHouse.Core.Entities
 {
-    public class Sensor
+    public class Sensor : BaseEntity
     {
-        public string Name { get; set; }
+        public Sensor() { }
+
+        public Sensor(IDataRecord reader) : base(reader) { }
 
         public int Value { get; set; }
+
+        public DateTime Time { get; set; }
     }
 }

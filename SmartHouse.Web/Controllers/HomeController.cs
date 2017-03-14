@@ -16,11 +16,7 @@ namespace SmartHouse.Web.Controllers
 
         public ActionResult Index()
         {
-            var data = new List<SensorData>
-            {
-                dataService.GetLastSensorData(1, 1, 1),
-                dataService.GetLastSensorData(1, 1, 2)
-            };
+            var data = dataService.GetInfrastructure();
 
             return View(data);
         }

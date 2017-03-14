@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\House.cs" />
     <Compile Include="Entities\Room.cs" />
     <Compile Include="Entities\Sensor.cs" />

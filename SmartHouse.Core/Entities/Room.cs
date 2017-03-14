@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 
 namespace SmartHouse.Core.Entities
 {
-    public class Room
+    public class Room : BaseEntity
     {
-        public string Name { get; set; }
+        public Room() { }
+
+        public Room(IDataRecord reader) : base(reader) { }
 
         public IEnumerable<Sensor> Sensors { get; set; }
     }
