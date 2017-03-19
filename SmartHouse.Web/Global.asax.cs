@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using NLog;
+using SmartHouse.Scheduler;
 using SmartHouse.Services;
 
 namespace SmartHouse.Web
@@ -19,6 +20,7 @@ namespace SmartHouse.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ConnectionStringProvider.ConnectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+            JobScheduler.Start();
         }
 
         protected void Application_Error()
