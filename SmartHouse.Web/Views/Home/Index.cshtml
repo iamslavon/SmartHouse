@@ -17,7 +17,8 @@
                         @foreach (var sensor in room.Sensors)
                         {
                             <li>
-                                <span class="font-24">@sensor.Name: @sensor.Value</span>
+                                <span class="font-24">@sensor.Name: @sensor.Value @sensor.Measurement</span>
+                                <span class="font-16 text-muted">last update: @sensor.Time.ToString("t")</span>
                             </li>
                         }
                     </ul>

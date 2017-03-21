@@ -12,7 +12,8 @@ GO
 
 CREATE TABLE [Sensors]( 
 [Id] [int] PRIMARY KEY IDENTITY NOT NULL, 
-[Name] [nvarchar](50))
+[Name] [nvarchar](50),
+[Measurement] [nvarchar](10))
 GO
 
 CREATE TABLE [Rooms]( 

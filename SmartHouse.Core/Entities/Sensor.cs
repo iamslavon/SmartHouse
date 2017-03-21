@@ -7,7 +7,12 @@ namespace SmartHouse.Core.Entities
     {
         public Sensor() { }
 
-        public Sensor(IDataRecord reader) : base(reader) { }
+        public Sensor(IDataRecord reader) : base(reader)
+        {
+            this.Measurement = reader["Measurement"].ToString();
+        }
+
+        public string Measurement { get; set; }
 
         public int Value { get; set; }
 
