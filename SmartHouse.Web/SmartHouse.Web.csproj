@@ -199,10 +199,6 @@
       <Project>{a849a01e-a342-42a1-b112-b2fd9f497416}</Project>
       <Name>SmartHouse.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SmartHouse.Scheduler\SmartHouse.Scheduler.csproj">
-      <Project>{81bd43b4-a645-4621-b380-48142f31be68}</Project>
-      <Name>SmartHouse.Scheduler</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SmartHouse.Services\SmartHouse.Services.csproj">
       <Project>{5fadaa5f-d22e-450b-a8bc-2a66d46d81ff}</Project>
       <Name>SmartHouse.Services</Name>

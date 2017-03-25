@@ -16,9 +16,9 @@ namespace SmartHouse.Scheduler
 
         public GetSensorDataJob()
         {
-            this.dataService = new DataService();
-            this.modules = dataService.GetModules();
-            this.httpClient = new HttpClient();
+            dataService = new DataService();
+            modules = dataService.GetModules();
+            httpClient = new HttpClient();
         }
 
         public void Execute(IJobExecutionContext context)
