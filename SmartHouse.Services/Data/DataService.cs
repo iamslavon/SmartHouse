@@ -13,7 +13,7 @@ namespace SmartHouse.Services.Data
 
         public DataService()
         {
-            this.connectionString = ConnectionStringProvider.ConnectionString;
+            this.connectionString = Settings.ConnectionString;
         }
 
         public int SaveSensorData(SensorData data)
@@ -156,6 +156,29 @@ namespace SmartHouse.Services.Data
                     };
                 }
             }
+        }
+
+        public IEnumerable<Module> GetModules()
+        {
+            var modules = new List<Module>();
+
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+                command.CommandText = "dbo.GetModules";
+                command.CommandType = CommandType.StoredProcedure;
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        modules.Add(new Module(reader));
+                    }
+                }
+            }
+
+            return modules;
         }
     }
 }

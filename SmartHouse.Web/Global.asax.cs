@@ -19,7 +19,7 @@ namespace SmartHouse.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            ConnectionStringProvider.ConnectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
+            Settings.ConnectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
             JobScheduler.Start();
         }
 

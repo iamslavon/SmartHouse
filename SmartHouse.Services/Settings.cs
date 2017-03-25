@@ -1,6 +1,6 @@
 ﻿namespace SmartHouse.Services
 {
-    public static class ConnectionStringProvider
+    public static class Settings
     {
         public static string ConnectionString { get; set; }
     }

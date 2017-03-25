@@ -16,7 +16,7 @@ namespace SmartHouse.Scheduler
             .WithIdentity("GetData")
             .StartNow()
             .WithSimpleSchedule(x => x
-            .WithIntervalInMinutes(60)
+            .WithIntervalInMinutes(30)
             .RepeatForever())
             .Build();
 

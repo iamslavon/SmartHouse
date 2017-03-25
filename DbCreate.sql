@@ -31,6 +31,11 @@ CREATE TABLE [SensorData](
 [Time] [datetime2] NOT NULL)
 GO
 
+CREATE TABLE [Modules]( 
+[Id] [int] PRIMARY KEY IDENTITY NOT NULL, 
+[Ip] [nvarchar](50))
+GO
+
 --INSERT INTO [SensorData] ([HouseId], [RoomId], [SensorId], [Value]) OUTPUT Inserted.ID VALUES (1, 1, 1, 100);
 
 SET ANSI_NULLS ON
@@ -93,4 +98,14 @@ BEGIN
 	INNER JOIN [Sensors] [s]
 	ON [s].[Id] = [tt].[SensorId]
 END
+GO
+
+CREATE PROCEDURE [dbo].[GetModules]
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT		*
+	FROM		[Modules]
+END
+
 GO
