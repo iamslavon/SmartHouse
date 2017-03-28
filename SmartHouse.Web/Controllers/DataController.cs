@@ -30,11 +30,5 @@ namespace SmartHouse.Web.Controllers
 
             return Json(new SuccessResponse("Saved"));
         }
-
-        [HttpGet]
-        public ActionResult GetData()
-        {
-            return null;
-        }
     }
 }

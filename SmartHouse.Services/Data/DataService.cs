@@ -4,6 +4,7 @@ using SmartHouse.Core.Dto;
 using System.Data;
 using SmartHouse.Core.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartHouse.Services.Data
 {
@@ -25,8 +26,7 @@ namespace SmartHouse.Services.Data
             {
                 connection.Open();
                 command.CommandText =
-                    "INSERT INTO [SensorData] ([HouseId], [RoomId], [SensorId], [Value], [Time]) OUTPUT Inserted.ID VALUES (@houseId, @roomId, @sensorId, @data, @time);";
-                command.Parameters.AddWithValue("@houseId", data.HouseId);
+                    "INSERT INTO [SensorData] ([RoomId], [SensorId], [Value], [Time]) OUTPUT Inserted.ID VALUES (@roomId, @sensorId, @data, @time);";
                 command.Parameters.AddWithValue("@roomId", data.RoomId);
                 command.Parameters.AddWithValue("@sensorId", data.SensorId);
                 command.Parameters.AddWithValue("@data", data.Value);
@@ -38,54 +38,26 @@ namespace SmartHouse.Services.Data
             return newId;
         }
 
-        public IEnumerable<House> GetInfrastructure()
+        public IEnumerable<Room> GetInfrastructure()
         {
-            var houses = GetHouses();
+            var rooms = GetRooms().ToList();
 
-            foreach(var house in houses)
+            foreach (var room in rooms)
             {
-                house.Rooms = GetRooms(house.Id);
+                room.Sensors = GetSensors(room.Id);
 
-                foreach(var room in house.Rooms)
+                foreach (var sensor in room.Sensors)
                 {
-                    room.Sensors = GetSensors(house.Id, room.Id);
-
-                    foreach(var sensor in room.Sensors)
-                    {
-                        var sensorData = GetLastSensorData(house.Id, room.Id, sensor.Id);
-                        sensor.Value = sensorData.Value;
-                        sensor.Time = sensorData.Time;
-                    }
+                    var sensorData = GetLastSensorData(room.Id, sensor.Id);
+                    sensor.Value = sensorData.Value;
+                    sensor.Time = sensorData.Time;
                 }
             }
 
-            return houses;
+            return rooms;
         }
 
-        public IEnumerable<House> GetHouses()
-        {
-            var houses = new List<House>();
-
-            using (var connection = new SqlConnection(connectionString))
-            using (var command = connection.CreateCommand())
-            {
-                connection.Open();
-                command.CommandText = "dbo.GetHouses";
-                command.CommandType = CommandType.StoredProcedure;
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        houses.Add(new House(reader));
-                    }
-                }
-            }
-
-            return houses;
-        }
-
-        public IEnumerable<Room> GetRooms(int houseId)
+        public IEnumerable<Room> GetRooms()
         {
             var rooms = new List<Room>();
 
@@ -93,9 +65,8 @@ namespace SmartHouse.Services.Data
             using (var command = connection.CreateCommand())
             {
                 connection.Open();
-                command.CommandText = "dbo.GetRoomsForHouse";
+                command.CommandText = "dbo.GetRooms";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@HouseId", houseId);
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -109,7 +80,7 @@ namespace SmartHouse.Services.Data
             return rooms;
         }
 
-        public IEnumerable<Sensor> GetSensors(int houseId, int roomId)
+        public IEnumerable<Sensor> GetSensors(int roomId)
         {
             var sensors = new List<Sensor>();
 
@@ -119,7 +90,6 @@ namespace SmartHouse.Services.Data
                 connection.Open();
                 command.CommandText = "dbo.GetSensorsForRoom";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@HouseId", houseId);
                 command.Parameters.AddWithValue("@RoomId", roomId);
 
                 using (var reader = command.ExecuteReader())
@@ -134,7 +104,7 @@ namespace SmartHouse.Services.Data
             return sensors;
         }
 
-        public Sensor GetLastSensorData(int houseId, int roomId, int sensorId)
+        public Sensor GetLastSensorData(int roomId, int sensorId)
         {
             using (var connection = new SqlConnection(connectionString))
             using (var command = connection.CreateCommand())
@@ -142,7 +112,6 @@ namespace SmartHouse.Services.Data
                 connection.Open();
                 command.CommandText = "dbo.GetLastSensorValue";
                 command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@HouseId", houseId);
                 command.Parameters.AddWithValue("@RoomId", roomId);
                 command.Parameters.AddWithValue("@SensorId", sensorId);
 

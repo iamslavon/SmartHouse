@@ -6,9 +6,6 @@ namespace SmartHouse.Web.Models
     public class SensorDataViewModel
     {
         [Required]
-        public int? HouseId { get; set; }
-
-        [Required]
         public int? RoomId { get; set; }
 
         [Required]
@@ -21,7 +18,6 @@ namespace SmartHouse.Web.Models
         {
             return new SensorData
             {
-                HouseId = this.HouseId,
                 RoomId = this.RoomId,
                 SensorId = this.SensorId,
                 Value = this.Value

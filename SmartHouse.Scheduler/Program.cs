@@ -25,6 +25,7 @@ namespace SmartHouse.Scheduler
 
             scheduler.ScheduleJob(job, trigger);
             Console.WriteLine("Scheduler started");
+            Console.WriteLine();
         }
     }
 }

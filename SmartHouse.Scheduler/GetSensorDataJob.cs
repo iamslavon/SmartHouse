@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Quartz;
@@ -23,16 +25,22 @@ namespace SmartHouse.Scheduler
 
         public void Execute(IJobExecutionContext context)
         {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
             foreach (var module in modules)
             {
+                Console.WriteLine($"* {DateTime.Now:t} Getting data from {module.Ip} ...");
                 var response = httpClient.GetAsync($"http://{module.Ip}/getdata");
                 var json = response.Result.Content.ReadAsStringAsync().Result;
                 var data = JsonConvert.DeserializeObject<IEnumerable<SensorData>>(json);
                 foreach (var sensorData in data)
                 {
+                    sensorData.RoomId = module.RoomId;
                     dataService.SaveSensorData(sensorData);
                 }
             }
+            stopWatch.Stop();
+            Console.WriteLine($"Done in {stopWatch.ElapsedMilliseconds} ms");
         }
     }
 }

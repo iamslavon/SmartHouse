@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using SmartHouse.Core.Dto;
+﻿using System.Web.Mvc;
 using SmartHouse.Services.Data;
 
 namespace SmartHouse.Web.Controllers

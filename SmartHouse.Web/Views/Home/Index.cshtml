@@ -1,29 +1,24 @@
-﻿@model IEnumerable<SmartHouse.Core.Entities.House>
+﻿@model IEnumerable<SmartHouse.Core.Entities.Room>
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-@foreach (var house in Model)
+
+@foreach (var room in Model)
 {
-    <div class="col-md-12 house-container">
-        <h3 class="text-center">@house.Name</h3>
-        @foreach (var room in house.Rooms)
-        {
-            <div class="col-md-4">
-                <div class="col-md-12 room-container">
-                    <h4 class="text-center">@room.Name</h4>
-                    <ul>
-                        @foreach (var sensor in room.Sensors)
-                        {
-                            <li>
-                                <span class="font-24">@sensor.Name: @sensor.Value @sensor.Measurement</span>
-                                <span class="font-16 text-muted">last update: @sensor.Time.ToString("t")</span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        }
+    <div class="col-md-4">
+        <div class="col-md-12 room-container">
+            <h4 class="text-center">@room.Name</h4>
+            <ul>
+                @foreach (var sensor in room.Sensors)
+                {
+                    <li>
+                        <span class="font-18">@sensor.Name: <span class="font-24">@sensor.Value</span> @sensor.Measurement</span>
+                        <span class="font-16 text-muted">last update: @sensor.Time.ToString("t")</span>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 }
